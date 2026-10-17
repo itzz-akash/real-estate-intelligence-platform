@@ -1,58 +1,46 @@
-# Real Estate Intelligence Platform (MERN)
+# AI-Powered Real Estate Intelligence (MERN)
 
-A full-stack starter project with a React dashboard, Express REST API, MongoDB persistence, JWT authentication, property listings, search/filtering, saved properties, and market-statistics endpoints.
+A starter full-stack app for listing/searching properties and generating AI-assisted property insights.
 
-## Stack
-- Frontend: React + Vite, React Router, plain CSS
-- Backend: Node.js, Express, Mongoose, JWT, bcryptjs
-- Database: MongoDB (local or Atlas)
+## Features
+- React + Vite dashboard with search, city/type filters, property cards, and market summary
+- Express REST API with MongoDB/Mongoose
+- Seed demo properties automatically when MongoDB is connected and the collection is empty
+- AI property analysis endpoint (Google Gemini API optional); falls back to a local rule-based analysis when no API key is set
+- Demo data mode: frontend/API still work without MongoDB using sample listings
 
 ## Requirements
 - Node.js 18+
-- MongoDB running locally or a MongoDB Atlas connection string
+- MongoDB local or Atlas (optional for demo mode)
 
-## Run it
-
-### 1. Backend
+## Run locally
+### 1. Server
 ```bash
-cd backend
+cd server
 cp .env.example .env
-# Edit MONGO_URI and JWT_SECRET in .env
 npm install
 npm run dev
 ```
-Backend runs at `http://localhost:5000`.
+Server runs at http://localhost:5000
 
-### 2. Frontend
-Open a second terminal:
+### 2. Client (new terminal)
 ```bash
-cd frontend
+cd client
 npm install
 npm run dev
 ```
-Open the Vite URL shown (usually `http://localhost:5173`).
+Open the URL printed by Vite (usually http://localhost:5173).
 
-## Demo mode / data
-The frontend calls the API. Seed sample properties:
-```bash
-cd backend
-npm run seed
-```
-Register a user from the UI, then sign in. The seed script inserts example listings into MongoDB.
+## Environment
+`server/.env`:
+- `PORT=5000`
+- `MONGODB_URI=mongodb://127.0.0.1:27017/real_estate_intelligence`
+- `GEMINI_API_KEY=` (optional; set a Google Gemini API key to enable generated AI analysis)
 
-## Main API
+## API
 - `GET /api/health`
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `GET /api/auth/me` (JWT)
-- `GET /api/properties` (search/filter/sort)
+- `GET /api/properties?search=&city=&type=&minPrice=&maxPrice=`
 - `GET /api/properties/:id`
-- `POST /api/properties` (JWT)
-- `PUT /api/properties/:id` (JWT; owner/admin)
-- `DELETE /api/properties/:id` (JWT; owner/admin)
-- `GET /api/analytics/overview`
-- `GET /api/analytics/market?city=...`
-- `GET /api/users/saved` (JWT)
-- `POST /api/users/saved/:propertyId` (JWT; toggle save)
+- `POST /api/ai/analyze` body: `{ "property": { ...propertyFields } }`
 
-
+This is an educational starter, not a professional valuation tool. AI insights are estimates and should not replace local market research or professional advice.
